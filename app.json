@@ -1,0 +1,83 @@
+{
+  "expo": {
+    "name": "MINDDRIFT",
+    "slug": "minddrift",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "minddrift",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.minddrift.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/favicon.png"
+    },
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F8F6F1"
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Inter_18pt-Thin.ttf",
+            "./assets/fonts/Inter_18pt-ThinItalic.ttf",
+            "./assets/fonts/Inter_18pt-ExtraLight.ttf",
+            "./assets/fonts/Inter_18pt-ExtraLightItalic.ttf",
+            "./assets/fonts/Inter_18pt-Light.ttf",
+            "./assets/fonts/Inter_18pt-LightItalic.ttf",
+            "./assets/fonts/Inter_18pt-Regular.ttf",
+            "./assets/fonts/Inter_18pt-Italic.ttf",
+            "./assets/fonts/Inter_18pt-Medium.ttf",
+            "./assets/fonts/Inter_18pt-MediumItalic.ttf",
+            "./assets/fonts/Inter_18pt-SemiBold.ttf",
+            "./assets/fonts/Inter_18pt-SemiBoldItalic.ttf",
+            "./assets/fonts/Inter_18pt-Bold.ttf",
+            "./assets/fonts/Inter_18pt-BoldItalic.ttf",
+            "./assets/fonts/Inter_18pt-ExtraBold.ttf",
+            "./assets/fonts/Inter_18pt-ExtraBoldItalic.ttf",
+            "./assets/fonts/Inter_18pt-Black.ttf",
+            "./assets/fonts/Inter_18pt-BlackItalic.ttf"
+          ]
+        }
+      ],
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 300,
+          "resizeMode": "contain",
+          "backgroundColor": "#F8F6F1",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "imageWidth": 300,
+            "resizeMode": "contain",
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
+      "expo-secure-store",
+      "expo-localization"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
