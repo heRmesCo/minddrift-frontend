@@ -7,12 +7,15 @@
     "icon": "./assets/icon.png",
     "scheme": "minddrift",
     "userInterfaceStyle": "automatic",
+    "backgroundColor": "#F8F6F1",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "backgroundColor": "#F8F6F1"
     },
     "android": {
       "package": "com.minddrift.app",
+      "backgroundColor": "#F8F6F1",
       "adaptiveIcon": {
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
@@ -25,12 +28,15 @@
       "output": "static",
       "favicon": "./assets/favicon.png"
     },
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#F8F6F1"
-    },
     "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F8F6F1",
+          "image": "./assets/icon.png",
+          "imageWidth": 200
+        }
+      ],
       [
         "expo-font",
         {
@@ -57,27 +63,18 @@
         }
       ],
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/splash-icon.png",
-          "imageWidth": 300,
-          "resizeMode": "contain",
-          "backgroundColor": "#F8F6F1",
-          "dark": {
-            "image": "./assets/splash-icon.png",
-            "imageWidth": 300,
-            "resizeMode": "contain",
-            "backgroundColor": "#000000"
-          }
-        }
-      ],
       "expo-secure-store",
       "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "da5d120e-0027-4639-b47c-9673dd4187d2"
+      }
     }
   }
 }

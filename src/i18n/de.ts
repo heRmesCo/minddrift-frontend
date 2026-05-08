@@ -21,6 +21,9 @@ export const de: Translations = {
     helped: "HAT GEHOLFEN",
     notToday: "NICHT HEUTE",
   },
+  loading: {
+    preparing: "MACH DICH FÜR DEINE ÜBUNG BEREIT",
+  },
   completed: {
     title: "ERLEDIGT",
     resetSaved: "RESET\nGESPEICHERT",

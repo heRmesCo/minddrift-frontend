@@ -19,6 +19,9 @@ export const en = {
     helped: "HELPED",
     notToday: "NOT TODAY",
   },
+  loading: {
+    preparing: "GET READY FOR YOUR EXERCISE",
+  },
   completed: {
     title: "COMPLETED",
     resetSaved: "RESET\nSAVED",

@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from "react";
+import * as NavigationBar from "expo-navigation-bar";
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect } from "react";
 import { AppState, BackHandler, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StatusBar } from "expo-status-bar";
-import * as NavigationBar from "expo-navigation-bar";
-import { useAppState } from "../src/hooks/useAppState";
 import { colors } from "../src/constants/colors";
-import { styles } from "../src/styles/app.styles";
-import { HomeScreen } from "../src/screens/HomeScreen";
-import { LoadingScreen } from "../src/screens/LoadingScreen";
+import { useAppState } from "../src/hooks/useAppState";
+import { useLocale } from "../src/i18n";
+import { CompletedScreen } from "../src/screens/CompletedScreen";
 import { ErrorScreen } from "../src/screens/ErrorScreen";
 import { ExerciseScreen } from "../src/screens/ExerciseScreen";
-import { CompletedScreen } from "../src/screens/CompletedScreen";
-import { SplashScreen } from "../src/screens/SplashScreen";
-import { useLocale } from "../src/i18n";
+import { HomeScreen } from "../src/screens/HomeScreen";
+import { LoadingScreen } from "../src/screens/LoadingScreen";
+import { styles } from "../src/styles/app.styles";
 
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
   const {
     screen,
     exercise,
@@ -69,17 +67,6 @@ export default function App() {
 
     return () => backHandler.remove();
   }, [screen, handleGoHome]);
-
-  if (showSplash) {
-    return (
-      <SafeAreaView style={styles.safeArea}>
-        {/* `style="dark"` = dark icons/text on the status bar, readable
-            against MINDDRIFT's light cream background. */}
-        <StatusBar style="dark" backgroundColor={colors.background} />
-        <SplashScreen onFinish={() => setShowSplash(false)} />
-      </SafeAreaView>
-    );
-  }
 
   const renderScreen = () => {
     switch (screen) {
