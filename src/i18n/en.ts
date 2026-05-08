@@ -20,6 +20,7 @@ export const en = {
     notToday: "NOT TODAY",
     done: "DONE",
     takeYourTime: "TAKE YOUR TIME",
+    areYouDone: "ARE YOU DONE?",
   },
   loading: {
     preparing: "GET READY FOR YOUR EXERCISE",

@@ -22,6 +22,7 @@ export const de: Translations = {
     notToday: "NICHT HEUTE",
     done: "FERTIG",
     takeYourTime: "LASS DIR ZEIT",
+    areYouDone: "BIST DU FERTIG?",
   },
   loading: {
     preparing: "MACH DICH FÜR DEINE ÜBUNG BEREIT",

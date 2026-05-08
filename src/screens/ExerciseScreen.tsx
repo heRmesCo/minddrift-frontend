@@ -105,6 +105,7 @@ export function ExerciseScreen({ exercise, onDone, onBack }: ExerciseScreenProps
 
   const progress = useRef(new Animated.Value(0)).current;
   const [filled, setFilled] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     const animation = Animated.timing(progress, {
@@ -123,6 +124,20 @@ export function ExerciseScreen({ exercise, onDone, onBack }: ExerciseScreenProps
     inputRange: [0, 1],
     outputRange: ["0%", "100%"],
   });
+
+  const handleActionPress = () => {
+    if (filled || confirming) {
+      onDone();
+    } else {
+      setConfirming(true);
+    }
+  };
+
+  const actionLabel = filled
+    ? t("exercise.done")
+    : confirming
+      ? t("exercise.areYouDone")
+      : t("exercise.takeYourTime");
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>
@@ -169,18 +184,15 @@ export function ExerciseScreen({ exercise, onDone, onBack }: ExerciseScreenProps
       <View style={styles.actions}>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={onDone}
-          activeOpacity={filled ? 0.6 : 1}
-          disabled={!filled}
+          onPress={handleActionPress}
+          activeOpacity={0.6}
         >
           {/* Animated fill that grows from left to right over FILL_DURATION_MS */}
           <Animated.View
             pointerEvents="none"
             style={[styles.actionFill, { width: fillWidth }]}
           />
-          <Text style={styles.actionText}>
-            {filled ? t("exercise.done") : t("exercise.takeYourTime")}
-          </Text>
+          <Text style={styles.actionText}>{actionLabel}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
