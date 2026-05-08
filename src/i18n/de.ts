@@ -20,13 +20,15 @@ export const de: Translations = {
     title: "ÜBUNG",
     helped: "HAT GEHOLFEN",
     notToday: "NICHT HEUTE",
+    done: "FERTIG",
+    takeYourTime: "LASS DIR ZEIT",
   },
   loading: {
     preparing: "MACH DICH FÜR DEINE ÜBUNG BEREIT",
   },
   completed: {
     title: "ERLEDIGT",
-    resetSaved: "RESET\nGESPEICHERT",
+    resetSaved: "HAT DIR\nDAS HEUTE\nGEHOLFEN?",
     thankYou: "DANKE.",
     learn: "MINDDRIFT LERNT,\nWAS DIR HILFT.",
     another: "NOCH EIN RESET",

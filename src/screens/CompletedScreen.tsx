@@ -1,14 +1,13 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "../i18n";
+import { Rating } from "../types/exercise";
 
 interface CompletedScreenProps {
-  // `onAnotherReset` is intentionally unused now: the secondary action button
-  // ("DO ANOTHER RESET") was removed to keep the screen calm and minimal.
-  // We keep the prop in the interface to preserve the existing call-site contract.
   onAnotherReset?: () => void;
   onGoHome: () => void;
+  onFeedback: (rating: Rating) => void;
 }
 
 const palette = {
@@ -16,7 +15,7 @@ const palette = {
   primary: "#364046",
 };
 
-export function CompletedScreen({ onGoHome }: CompletedScreenProps) {
+export function CompletedScreen({ onGoHome, onFeedback }: CompletedScreenProps) {
   // `t` is locale-aware and gets a fresh identity whenever the locale
   // changes — required so the React Compiler re-evaluates translated JSX.
   const { t } = useTranslation();
@@ -61,10 +60,17 @@ export function CompletedScreen({ onGoHome }: CompletedScreenProps) {
       <View style={styles.actions}>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={onGoHome}
+          onPress={() => onFeedback("GOOD")}
           activeOpacity={0.6}
         >
-          <Text style={styles.actionText}>{t("completed.backHome")}</Text>
+          <Text style={styles.actionText}>{t("exercise.helped")}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => onFeedback("BAD")}
+          activeOpacity={0.6}
+        >
+          <Text style={styles.actionText}>{t("exercise.notToday")}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -170,7 +176,7 @@ const styles = StyleSheet.create({
   actions: {
     paddingHorizontal: 24,
     paddingTop: 16,
-    paddingBottom: 32,
+    paddingBottom: 64,
     gap: 12,
   },
   actionButton: {

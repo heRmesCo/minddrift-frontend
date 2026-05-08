@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
+  Animated,
+  Easing,
   Image,
   ImageSourcePropType,
   StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Exercise, Rating } from "../types/exercise";
 import { getCurrentLocale, useTranslation } from "../i18n";
+import { Exercise } from "../types/exercise";
+
+const FILL_DURATION_MS = 90_000;
 
 interface ExerciseScreenProps {
   exercise: Exercise;
-  onFeedback: (rating: Rating) => void;
+  onDone: () => void;
   onBack?: () => void;
 }
 
@@ -92,12 +96,33 @@ function pickExerciseText(exercise: Exercise): string {
   return exercise.text;
 }
 
-export function ExerciseScreen({ exercise, onFeedback, onBack }: ExerciseScreenProps) {
+export function ExerciseScreen({ exercise, onDone, onBack }: ExerciseScreenProps) {
   // `t` is locale-aware and gets a fresh identity whenever the locale
   // changes — required so the React Compiler re-evaluates translated JSX.
   const { t } = useTranslation();
   const category = resolveCategory(exercise.type);
   const exerciseText = pickExerciseText(exercise);
+
+  const progress = useRef(new Animated.Value(0)).current;
+  const [filled, setFilled] = useState(false);
+
+  useEffect(() => {
+    const animation = Animated.timing(progress, {
+      toValue: 1,
+      duration: FILL_DURATION_MS,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    });
+    animation.start(({ finished }) => {
+      if (finished) setFilled(true);
+    });
+    return () => animation.stop();
+  }, [progress]);
+
+  const fillWidth = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0%", "100%"],
+  });
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right"]}>
@@ -144,17 +169,18 @@ export function ExerciseScreen({ exercise, onFeedback, onBack }: ExerciseScreenP
       <View style={styles.actions}>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => onFeedback("GOOD")}
-          activeOpacity={0.6}
+          onPress={onDone}
+          activeOpacity={filled ? 0.6 : 1}
+          disabled={!filled}
         >
-          <Text style={styles.actionText}>{t("exercise.helped")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.actionButton}
-          onPress={() => onFeedback("BAD")}
-          activeOpacity={0.6}
-        >
-          <Text style={styles.actionText}>{t("exercise.notToday")}</Text>
+          {/* Animated fill that grows from left to right over FILL_DURATION_MS */}
+          <Animated.View
+            pointerEvents="none"
+            style={[styles.actionFill, { width: fillWidth }]}
+          />
+          <Text style={styles.actionText}>
+            {filled ? t("exercise.done") : t("exercise.takeYourTime")}
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -240,17 +266,18 @@ const styles = StyleSheet.create({
   // ── Exercise area ───────────────────────────────────────
   exerciseArea: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingVertical: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
     justifyContent: "center",
+    alignItems: "stretch",
   },
   exerciseFrame: {
-    flexShrink: 1,
+    flex: 1,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: palette.primary,
-    borderRadius: 24,
-    paddingHorizontal: 24,
-    paddingVertical: 32,
+    borderRadius: 28,
+    paddingHorizontal: 28,
+    paddingVertical: 48,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "transparent",
@@ -272,7 +299,7 @@ const styles = StyleSheet.create({
   actions: {
     paddingHorizontal: 24,
     paddingTop: 16,
-    paddingBottom: 32,
+    paddingBottom: 64,
     gap: 12,
   },
   actionButton: {
@@ -283,6 +310,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent",
+    overflow: "hidden",
+  },
+  actionFill: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: palette.primary,
+    opacity: 0.12,
   },
   actionText: {
     fontFamily: "Inter_18pt-Light",

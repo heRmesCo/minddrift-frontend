@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { colors } from "../constants/colors";
 
 export const styles = StyleSheet.create({
@@ -121,6 +121,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 24,
+  },
+
+  loadingLogo: {
+    width: 96,
+    height: 96,
+    marginBottom: 24,
   },
 
   loadingText: {

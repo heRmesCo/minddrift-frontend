@@ -18,13 +18,15 @@ export const en = {
     title: "EXERCISE",
     helped: "HELPED",
     notToday: "NOT TODAY",
+    done: "DONE",
+    takeYourTime: "TAKE YOUR TIME",
   },
   loading: {
     preparing: "GET READY FOR YOUR EXERCISE",
   },
   completed: {
     title: "COMPLETED",
-    resetSaved: "RESET\nSAVED",
+    resetSaved: "DID THIS\nHELP YOU\nTODAY?",
     thankYou: "THANK YOU.",
     learn: "MINDDRIFT WILL LEARN\nWHAT WORKS FOR YOU.",
     another: "DO ANOTHER RESET",

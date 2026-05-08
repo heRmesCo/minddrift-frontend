@@ -1,23 +1,34 @@
 import { useState } from "react";
-import { AppScreen, Exercise, ExerciseType, Rating } from "../types/exercise";
 import { fetchExercise, submitFeedback } from "../api/exercise";
+import { AppScreen, Exercise, ExerciseType, Rating } from "../types/exercise";
+
+const MIN_LOADING_MS = 4000;
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function useAppState() {
   const [screen, setScreen] = useState<AppScreen>("home");
   const [exercise, setExercise] = useState<Exercise | null>(null);
-  // Remember the last requested type so "Do another reset" can re-use it.
   const [lastType, setLastType] = useState<ExerciseType | undefined>(undefined);
 
   const handleStartReset = async (type?: ExerciseType) => {
     setLastType(type);
     setScreen("loading");
     try {
-      const data = await fetchExercise(type);
+      const [data] = await Promise.all([
+        fetchExercise(type),
+        wait(MIN_LOADING_MS),
+      ]);
       setExercise(data);
       setScreen("reset");
     } catch {
+      await wait(MIN_LOADING_MS);
       setScreen("error");
     }
+  };
+
+  const handleExerciseDone = () => {
+    setScreen("completed");
   };
 
   const handleFeedback = async (rating: Rating) => {
@@ -25,10 +36,11 @@ export function useAppState() {
       try {
         await submitFeedback({ exerciseId: exercise.id, rating });
       } catch {
-        // Silently handle feedback submission failure
+        /* ignore */
       }
     }
-    setScreen("completed");
+    setExercise(null);
+    setScreen("home");
   };
 
   const handleGoHome = () => {
@@ -44,6 +56,7 @@ export function useAppState() {
     screen,
     exercise,
     handleStartReset,
+    handleExerciseDone,
     handleFeedback,
     handleGoHome,
     handleAnotherReset,

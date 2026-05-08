@@ -18,6 +18,7 @@ export default function App() {
     screen,
     exercise,
     handleStartReset,
+    handleExerciseDone,
     handleFeedback,
     handleGoHome,
     handleAnotherReset,
@@ -80,7 +81,7 @@ export default function App() {
         return exercise ? (
           <ExerciseScreen
             exercise={exercise}
-            onFeedback={handleFeedback}
+            onDone={handleExerciseDone}
             onBack={handleGoHome}
           />
         ) : null;
@@ -89,6 +90,7 @@ export default function App() {
           <CompletedScreen
             onAnotherReset={handleAnotherReset}
             onGoHome={handleGoHome}
+            onFeedback={handleFeedback}
           />
         );
       default:
